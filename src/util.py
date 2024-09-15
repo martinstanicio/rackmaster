@@ -6,3 +6,11 @@ def is_valid_coordinate(xx: int, yyy: int, zz: int) -> bool:
         return False
 
     return True
+
+
+def get_pallet_origin(yyy: int):
+    while True:
+        if yyy % 3 == 1:
+            return yyy
+
+        yyy -= 1
