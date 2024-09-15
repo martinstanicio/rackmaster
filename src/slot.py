@@ -4,7 +4,7 @@ class Slot:
         xx: int,
         yyy: int,
         zz: int,
-        article_code: str,
+        article_code: str | None,
         quantity: int = 0,
         status: str = "divided_pallet",
     ) -> None:
