@@ -25,3 +25,9 @@ class Slot:
         self.article_code = article_code
         self.quantity = quantity
         self.status = status
+
+    def is_blocked(self) -> bool:
+        return self.status == "blocked"
+
+    def is_empty(self) -> bool:
+        return not self.is_blocked() and self.quantity == 0
