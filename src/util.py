@@ -8,7 +8,7 @@ def is_valid_coordinate(xx: int, yyy: int, zz: int) -> bool:
     return True
 
 
-def get_pallet_origin(yyy: int):
+def get_pallet_origin(yyy: int) -> int:
     while True:
         if yyy % 3 == 1:
             return yyy
