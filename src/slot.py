@@ -38,6 +38,16 @@ class Slot(Base):
         self.quantity = quantity
         self.status = status
 
+    def __repr__(self):
+        coords = f"({self.xx:02d}, {self.yyy:03d}, {self.zz:02d})"
+
+        if self.status == Status.blocked:
+            return f"{coords} blocked"
+        elif not self.article_code:
+            return f"{coords} empty"
+        else:
+            return f"{coords} {self.article_code} x{self.quantity}"
+
     def is_blocked(self) -> bool:
         return self.status == "blocked"
 
