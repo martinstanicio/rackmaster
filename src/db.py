@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from base import Base
+from config import columns, db_url, levels, rows
 from slot import Slot
-from config import db_url, rows, columns, levels
 
 engine = create_engine(db_url)
 Base.metadata.create_all(bind=engine)

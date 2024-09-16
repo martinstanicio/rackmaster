@@ -1,6 +1,7 @@
-from sqlalchemy import Column, String, Integer, Enum
-from status import Status
+from sqlalchemy import Column, Enum, Integer, String
+
 from base import Base
+from status import Status
 
 
 class Slot(Base):

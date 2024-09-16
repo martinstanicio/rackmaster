@@ -1,4 +1,4 @@
-from config import rows, columns, levels
+from config import columns, levels, rows
 
 
 def are_valid_coordinates(xx: int, yyy: int, zz: int) -> bool:
