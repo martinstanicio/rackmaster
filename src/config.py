@@ -1,3 +1,5 @@
+db_url = "sqlite:///rackmaster.db"
+
 min_row = 50
 max_row = 53
 min_column = 1

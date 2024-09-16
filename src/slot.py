@@ -1,4 +1,18 @@
-class Slot:
+from sqlalchemy import Column, String, Integer, Enum
+from status import Status
+from base import Base
+
+
+class Slot(Base):
+    __tablename__ = "warehouse"
+
+    xx = Column("xx", Integer, primary_key=True)
+    yyy = Column("yyy", Integer, primary_key=True)
+    zz = Column("zz", Integer, primary_key=True)
+    article_code = Column("article_code", String)
+    quantity = Column("quantity", Integer)
+    status = Column("status", Enum(Status))
+
     def __init__(
         self,
         xx: int,
