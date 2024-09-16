@@ -4,20 +4,17 @@ class Slot:
         xx: int,
         yyy: int,
         zz: int,
-        article_code: str | None,
-        quantity: int = 0,
-        status: str = "divided_pallet",
+        status=Status.divided_pallet,
+        article_code: str | None = None,
+        quantity=0,
     ) -> None:
         if quantity < 0:
             raise Exception("`quantity` must be a positive number")
 
-        match status:
-            case "blocked" | "full_pallet" | "divided_pallet":
-                pass
-            case _:
-                raise Exception(
-                    "`status` must be 'blocked', 'full_pallet', or 'divided_pallet'"
-                )
+        if status not in list(Status):
+            raise Exception(
+                "`status` must be 'blocked', 'full_pallet', or 'divided_pallet'"
+            )
 
         self.xx = xx
         self.yyy = yyy
