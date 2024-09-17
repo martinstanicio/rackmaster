@@ -23,3 +23,10 @@ def get_pallet_origin(yyy: int) -> int:
             return yyy
 
         yyy -= 1
+
+
+def is_int(num: int | float) -> bool:
+    """
+    Checks if a number is an integer, regardless of its data type.
+    """
+    return num % 1 == 0
