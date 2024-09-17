@@ -49,7 +49,7 @@ class Slot(Base):
             return f"{coords} {self.article_code} x{self.quantity}"
 
     def is_blocked(self) -> bool:
-        return self.status == "blocked"
+        return self.status == Status.blocked
 
     def is_empty(self) -> bool:
         return not self.is_blocked() and self.quantity == 0
