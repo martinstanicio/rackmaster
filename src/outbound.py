@@ -9,6 +9,9 @@ def get_article_slots(
     session: Session,
     article_code: str,
 ) -> list[Slot]:
+    """
+    Returns a list of all the slots whose `article_code` matches the one given.
+    """
     slots = session.query(Slot).where(Slot.article_code == article_code).all()
     results: list[Slot] = []
 
@@ -24,6 +27,9 @@ def get_article_stock(
     session: Session,
     article_code: str,
 ) -> list[Slot]:
+    """
+    Given an `article_code`, returns the amount of that item in the warehouse.
+    """
     slots = get_article_slots(session, article_code)
     quantity = 0
 
