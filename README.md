@@ -18,10 +18,18 @@ Supports the movement of items from one position to another, or swapping items b
 
 ## Coordinate System
 
-The warehouse uses a custom coordinate system to define storage locations:
+The warehouse uses a coordinate system to define storage locations. Each position is called a _slot_, and its identified with the following coordinates:
 
-- `XX`: Rack-block row number.
-- `YYY`: Position within the row (each rack contains 3 pallets, and each pallet is divided into 3 sections, so there are 9 possible positions in a single rack).
-- `ZZ`: Level or height within the rack.
+- `xx`: rack-block row number.
+- `yyy`: position within the row (each rack contains 3 pallets, and each pallet is divided into 3 sections, so there are 9 possible positions in a single rack).
+- `zz`: level or height within the rack.
 
 Example coordinate: `(50, 002, 01)` (Rack-block 50, Position 002, Level 01).
+
+## Slot status
+
+The status of a slot can have one of three values:
+
+- `blocked`: the slot is unusable (for example, because said slot is occupied by the fire supression system of the warehouse).
+- `divided_pallet`: a pallet may be split into three partitions, each able to hold different items. Each partition must have its own article code and quantity, independant of each other.
+- `full_pallet`: the full pallet is used to store a single product type. The three pallet slots must have the exact same article code and quantity.
