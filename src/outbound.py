@@ -18,3 +18,16 @@ def get_article_slots(
         results.append(slot)
 
     return results
+
+
+def get_article_stock(
+    session: Session,
+    article_code: str,
+) -> list[Slot]:
+    slots = get_article_slots(session, article_code)
+    quantity = 0
+
+    for slot in slots:
+        quantity += slot.quantity
+
+    return quantity
