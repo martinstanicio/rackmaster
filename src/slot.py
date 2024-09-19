@@ -43,7 +43,7 @@ class Slot(Base):
 
         if self.status == Status.blocked:
             return f"{coords} blocked"
-        elif not self.article_code:
+        elif self.quantity == 0:
             return f"{coords} empty"
         else:
             return f"{coords} {self.article_code} x{self.quantity}"
