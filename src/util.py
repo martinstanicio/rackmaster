@@ -25,6 +25,13 @@ def get_pallet_origin(yyy: int) -> int:
         yyy -= 1
 
 
+def is_pallet_origin(yyy: int) -> bool:
+    """
+    Checks if the `yyy` coordinate corresponds to the first slot of any pallet.
+    """
+    return yyy == get_pallet_origin(yyy)
+
+
 def is_int(num: int | float) -> bool:
     """
     Checks if a number is an integer, regardless of its data type.
