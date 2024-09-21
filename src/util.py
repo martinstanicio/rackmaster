@@ -32,8 +32,14 @@ def is_pallet_origin(yyy: int) -> bool:
     return yyy == get_pallet_origin(yyy)
 
 
-def is_int(num: int | float) -> bool:
+def is_int(num) -> bool:
     """
     Checks if a number is an integer, regardless of its data type.
     """
+    if type(num) == str:
+        try:
+            num = float(num)
+        except ValueError:
+            return False
+
     return num % 1 == 0
