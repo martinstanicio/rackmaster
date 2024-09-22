@@ -43,3 +43,10 @@ def is_int(num) -> bool:
             return False
 
     return num % 1 == 0
+
+
+def format_coordinates(xx: int, yyy: int, zz: int) -> str:
+    """
+    Returns a string in the format `(xx, yyy, zz)`.
+    """
+    return f"({xx:02d}, {yyy:03d}, {zz:02d})"
