@@ -4,13 +4,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from base import Base
 from slot import Slot
 from status import Status
-from util import (
-    format_coordinates,
-    get_pallet_origin,
-    is_int,
-    is_pallet_origin,
-    validate_slot_availability,
-)
+from util import format_coordinates, get_pallet_origin, is_int, is_pallet_origin
 
 
 class Database:
@@ -121,17 +115,23 @@ class Database:
                 .all()
             )
 
-            if use_full_pallet:
-                for slot in pallet_slots:
-                    validate_slot_availability(slot)
+            for slot in pallet_slots:
+                coords = format_coordinates(slot.xx, slot.yyy, slot.zz)
+
+                if slot.is_blocked():
+                    raise Exception(f"Slot at {coords} is blocked.")
+
+                if not slot.is_empty():
+                    raise Exception(f"Slot at {coords} is not empty.")
+
+                if use_full_pallet:
                     slot.status = Status.full_pallet
                     slot.article_code = article_code
                     slot.quantity = quantity
-            else:
-                for slot in pallet_slots:
-                    validate_slot_availability(slot)
+                else:
                     slot.status = Status.divided_pallet
 
+            if not use_full_pallet:
                 target_slot.article_code = article_code
                 target_slot.quantity = quantity
         except Exception as e:
