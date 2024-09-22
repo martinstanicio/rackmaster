@@ -14,7 +14,7 @@ class Database:
         rows: list[int],
         columns: list[int],
         levels: list[int],
-    ):
+    ) -> None:
         self.rows = rows
         self.columns = columns
         self.levels = levels
@@ -29,7 +29,10 @@ class Database:
         if first_time:
             self.populate()
 
-    def populate(self):
+    def populate(self) -> None:
+        """
+        Populates the database with all possible slots in the warehouse.
+        """
         try:
             for xx in self.rows:
                 for yyy in self.columns:
@@ -41,5 +44,8 @@ class Database:
             print("Populating `warehouse` table...")
             self.session.commit()
 
-    def close(self):
+    def close(self) -> None:
+        """
+        Closes the database connection.
+        """
         self.session.close()
