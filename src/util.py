@@ -1,14 +1,5 @@
-from config import columns, levels, rows
-
-
-def are_valid_coordinates(xx: int, yyy: int, zz: int) -> bool:
-    """
-    Returns `True` if the coordinates are within the boundaries configured, or `False` otherwise.
-    """
-    if xx not in rows or yyy not in columns or zz not in levels:
-        return False
-
-    return True
+from slot import Slot
+from util import format_coordinates
 
 
 def get_pallet_origin(yyy: int) -> int:
@@ -50,3 +41,24 @@ def format_coordinates(xx: int, yyy: int, zz: int) -> str:
     Returns a string in the format `(xx, yyy, zz)`.
     """
     return f"({xx:02d}, {yyy:03d}, {zz:02d})"
+
+
+def validate_slot_availability(
+    target_slot: Slot,
+) -> None:
+    """
+    Raises an exception if the target slot is blocked or not empty.
+    """
+    xx = target_slot.xx
+    yyy = target_slot.yyy
+    zz = target_slot.zz
+
+    if target_slot.is_blocked():
+        raise Exception(
+            f"The target slot at {format_coordinates(xx,yyy,zz)} is blocked."
+        )
+
+    if not target_slot.is_empty():
+        raise Exception(
+            f"The target slot at {format_coordinates(xx,yyy,zz)} is not empty."
+        )
