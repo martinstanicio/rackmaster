@@ -8,6 +8,7 @@ from util import format_coordinates, get_pallet_origin, is_int, is_pallet_origin
 
 
 class Database:
+    _session: sessionmaker[Session]
     session: Session
 
     def __init__(
@@ -22,14 +23,26 @@ class Database:
         self.levels = levels
         engine = create_engine(db_url)
         Base.metadata.create_all(bind=engine)
+        self._session = sessionmaker(bind=engine)
 
-        _Session = sessionmaker(bind=engine)
-        self.session = _Session()
+    def __enter__(self) -> None:
+        """
+        Opens a new database connection.
+        """
+        self.session = self._session()
 
         # if `warehouse` table is empty, it needs to be populated
         first_time = len(self.session.query(Slot).all()) == 0
         if first_time:
             self.populate()
+
+        return self
+
+    def __exit__(self, *_) -> None:
+        """
+        Closes the database connection.
+        """
+        self.session.close()
 
     def populate(self) -> None:
         """
@@ -45,12 +58,6 @@ class Database:
         else:
             print("Populating `warehouse` table...")
             self.session.commit()
-
-    def close(self) -> None:
-        """
-        Closes the database connection.
-        """
-        self.session.close()
 
     def are_valid_coordinates(self, xx: int, yyy: int, zz: int) -> bool:
         """
