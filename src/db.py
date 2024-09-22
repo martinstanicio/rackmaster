@@ -58,6 +58,16 @@ class Database:
         """
         return (xx in self.rows) and (yyy in self.columns) and (zz in self.levels)
 
+    def get_slot(self, xx: int, yyy: int, zz: int) -> Slot | None:
+        """
+        Returns the slot with the given coordinates, or `None` if it does not exist.
+        """
+        return (
+            self.session.query(Slot)
+            .where(Slot.xx == xx, Slot.yyy == yyy, Slot.zz == zz)
+            .one_or_none()
+        )
+
     def get_free_slots(self) -> list[Slot]:
         """
         Returns a list of all slots that are not blocked and have 0 items.
