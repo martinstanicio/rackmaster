@@ -180,3 +180,50 @@ class Database:
             quantity += slot.quantity
 
         return quantity
+
+    def swap_pallets(self, slot1: Slot, slot2: Slot) -> None:
+        origin1 = get_pallet_origin(slot1.yyy)
+        origin2 = get_pallet_origin(slot2.yyy)
+
+        pallet1: list[Slot] = (
+            self.session.query(Slot)
+            .where(
+                Slot.xx == slot1.xx,
+                Slot.yyy >= origin1,
+                Slot.yyy <= origin1 + 2,
+                Slot.zz == slot1.zz,
+            )
+            .all()
+        )
+        pallet2: list[Slot] = (
+            self.session.query(Slot)
+            .where(
+                Slot.xx == slot2.xx,
+                Slot.yyy >= origin2,
+                Slot.yyy <= origin2 + 2,
+                Slot.zz == slot2.zz,
+            )
+            .all()
+        )
+
+        for slot in pallet1 + pallet2:
+            if slot.is_blocked():
+                raise Exception(
+                    "Operation cancelled. Cannot swap pallets with blocked slots."
+                )
+
+        for i in range(len(pallet1)):
+            (pallet1[i].article_code, pallet2[i].article_code) = (
+                pallet2[i].article_code,
+                pallet1[i].article_code,
+            )
+            (pallet1[i].quantity, pallet2[i].quantity) = (
+                pallet2[i].quantity,
+                pallet1[i].quantity,
+            )
+            (pallet1[i].status, pallet2[i].status) = (
+                pallet2[i].status,
+                pallet1[i].status,
+            )
+
+        self.session.commit()
