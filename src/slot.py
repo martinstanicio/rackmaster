@@ -2,6 +2,7 @@ from sqlalchemy import Column, Enum, Integer, String
 
 from base import Base
 from status import Status
+from util import format_coordinates
 
 
 class Slot(Base):
@@ -39,7 +40,7 @@ class Slot(Base):
         self.status = status
 
     def __repr__(self):
-        coords = f"({self.xx:02d}, {self.yyy:03d}, {self.zz:02d})"
+        coords = format_coordinates(self.xx, self.yyy, self.zz)
 
         if self.status == Status.blocked:
             return f"{coords} blocked"
