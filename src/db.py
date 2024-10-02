@@ -1,10 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from base import Base
-from slot import Slot
-from status import Status
-from util import format_coordinates, get_pallet_origin, is_int, is_pallet_origin
+from src.base import Base
+from src.slot import Slot
+from src.status import Status
+from src.util import format_coordinates, get_pallet_origin, is_int, is_pallet_origin
 
 
 class Database:

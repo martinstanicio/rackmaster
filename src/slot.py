@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Enum, Integer, String
 
-from base import Base
-from status import Status
-from util import format_coordinates
+from src.base import Base
+from src.status import Status
+from src.util import format_coordinates
 
 
 class Slot(Base):
