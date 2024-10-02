@@ -1,13 +1,15 @@
 import tkinter as tk
 
+import customtkinter as ctk
 
-class GUI(tk.Tk):
+
+class GUI(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("RackMaster")
         self.geometry("600x400")
 
-        self.container = tk.Frame(self)
+        self.container = ctk.CTkFrame(self)
         self.container.pack(expand=True)
 
         menubar = tk.Menu(self)
@@ -39,8 +41,3 @@ class GUI(tk.Tk):
 
     def run(self) -> None:
         self.mainloop()
-
-
-if __name__ == "__main__":
-    gui = GUI()
-    gui.run()
