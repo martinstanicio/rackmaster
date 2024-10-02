@@ -2,9 +2,11 @@ import tkinter as tk
 
 import customtkinter as ctk
 
+from src.db import Database
+
 
 class GUI(ctk.CTk):
-    def __init__(self):
+    def __init__(self, db: Database) -> None:
         super().__init__()
         self.title("RackMaster")
         self.geometry("600x400")
@@ -30,7 +32,7 @@ class GUI(ctk.CTk):
 
         self.frames = {}
         for F in ():
-            frame = F(self.container, self)
+            frame = F(self.container, self, db)
             self.frames[F] = frame
             frame.pack(anchor="center")
 
