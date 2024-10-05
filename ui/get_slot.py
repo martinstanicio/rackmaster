@@ -17,7 +17,7 @@ class GetSlot(BaseFrame):
         frame.pack(padx=20, pady=20)
         label = ctk.CTkLabel(frame, text="Slot coordinates")
         label.pack()
-        self.slot = CoordsInput(frame, controller)
+        self.slot = CoordsInput(frame)
         self.slot.pack(padx=10, pady=10)
 
         get_button = ctk.CTkButton(self, text="Get slot", command=self.get_slot)

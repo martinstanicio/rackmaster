@@ -4,9 +4,8 @@ import customtkinter as ctk
 
 
 class CoordsInput(ctk.CTkFrame):
-    def __init__(self, parent, controller) -> None:
+    def __init__(self, parent) -> None:
         super().__init__(parent)
-        self.controller = controller
 
         cmd = self.register(self.validate_input)
 

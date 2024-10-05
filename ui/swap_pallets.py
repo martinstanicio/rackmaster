@@ -17,14 +17,14 @@ class SwapPallets(BaseFrame):
         frame1.pack(padx=20, pady=20)
         label1 = ctk.CTkLabel(frame1, text="Slot 1")
         label1.pack()
-        self.slot1 = CoordsInput(frame1, controller)
+        self.slot1 = CoordsInput(frame1)
         self.slot1.pack(padx=10, pady=10)
 
         frame2 = ctk.CTkFrame(self)
         frame2.pack(padx=20, pady=20)
         label2 = ctk.CTkLabel(frame2, text="Slot 2")
         label2.pack()
-        self.slot2 = CoordsInput(frame2, controller)
+        self.slot2 = CoordsInput(frame2)
         self.slot2.pack(padx=10, pady=10)
 
         swap_button = ctk.CTkButton(
