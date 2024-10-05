@@ -67,3 +67,7 @@ class SwapPallets(BaseFrame):
             tk.messagebox.showinfo("RackMaster", "Pallets swapped successfully.")
         except Exception as e:
             tk.messagebox.showerror("RackMaster", str(e))
+
+    def reset(self) -> None:
+        self.slot1.reset()
+        self.slot2.reset()

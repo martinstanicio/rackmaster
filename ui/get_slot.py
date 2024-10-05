@@ -45,3 +45,9 @@ class GetSlot(BaseFrame):
         self.result.configure(state="normal")
         self.result.insert("1.0", f"{str(slot)}\n")
         self.result.configure(state="disabled")
+
+    def reset(self) -> None:
+        self.slot.reset()
+        self.result.configure(state="normal")
+        self.result.delete("1.0", "end")
+        self.result.configure(state="disabled")

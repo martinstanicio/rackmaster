@@ -39,5 +39,10 @@ class CoordsInput(ctk.CTkFrame):
 
         return (xx, yyy, zz)
 
+    def reset(self) -> None:
+        self.xx.delete(0, "end")
+        self.yyy.delete(0, "end")
+        self.zz.delete(0, "end")
+
     def validate_input(self, P: str) -> bool:
         return str.isdigit(P) or P == ""

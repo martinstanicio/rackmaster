@@ -36,3 +36,8 @@ class GetFreeSlots(BaseFrame):
         for slot in slots:
             self.result.insert("end", f"{str(slot)}\n")
         self.result.configure(state="disabled")
+
+    def reset(self) -> None:
+        self.result.configure(state="normal")
+        self.result.delete("1.0", "end")
+        self.result.configure(state="disabled")
