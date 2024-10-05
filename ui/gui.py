@@ -13,6 +13,8 @@ class GUI(ctk.CTk):
 
         self.container = ctk.CTkFrame(self)
         self.container.pack(expand=True)
+        self.container.grid_rowconfigure(0, weight=1)
+        self.container.grid_columnconfigure(0, weight=1)
 
         menubar = tk.Menu(self)
         self.config(menu=menubar)
@@ -37,7 +39,7 @@ class GUI(ctk.CTk):
         for F in (SwapPallets,):
             frame = F(self.container, self, db)
             self.frames[F] = frame
-            frame.pack(anchor="center")
+            frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame(SwapPallets)
 
