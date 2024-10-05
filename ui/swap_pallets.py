@@ -10,8 +10,8 @@ class SwapPallets(BaseFrame):
     def __init__(self, parent, controller, db):
         super().__init__(parent, controller, db)
 
-        label = ctk.CTkLabel(self, text="Swap pallets", font=("Arial", 24))
-        label.pack(padx=20, pady=20)
+        title = ctk.CTkLabel(self, text="Swap pallets", font=("Arial", 24))
+        title.pack(padx=20, pady=20)
 
         frame1 = ctk.CTkFrame(self)
         frame1.pack(padx=20, pady=20)
