@@ -3,6 +3,7 @@ import tkinter as tk
 import customtkinter as ctk
 
 from src.db import Database
+from ui.get_free_slots import GetFreeSlots
 from ui.get_slot import GetSlot
 from ui.swap_pallets import SwapPallets
 
@@ -24,6 +25,9 @@ class GUI(ctk.CTk):
 
         inbound = tk.Menu(menubar, tearoff=0)
         inbound.add_command(label="Get slot", command=lambda: self.show_frame(GetSlot))
+        inbound.add_command(
+            label="Get free slots", command=lambda: self.show_frame(GetFreeSlots)
+        )
 
         internal_movement = tk.Menu(menubar, tearoff=0)
         internal_movement.add_command(
@@ -40,6 +44,7 @@ class GUI(ctk.CTk):
         self.frames = {}
         for F in (
             GetSlot,
+            GetFreeSlots,
             SwapPallets,
         ):
             frame = F(self.container, self, db)
