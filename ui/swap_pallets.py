@@ -3,6 +3,7 @@ import tkinter as tk
 import customtkinter as ctk
 
 from ui.base_frame import BaseFrame
+from ui.coords_input import CoordsInput
 
 
 class SwapPallets(BaseFrame):
@@ -16,43 +17,33 @@ class SwapPallets(BaseFrame):
         frame1.pack(padx=20, pady=20)
         label1 = ctk.CTkLabel(frame1, text="Slot 1")
         label1.pack()
-        grid1 = ctk.CTkFrame(frame1)
-        grid1.pack(padx=10, pady=10)
-        self.xx1 = ctk.CTkEntry(grid1, placeholder_text="XX")
-        self.xx1.grid(row=0, column=1)
-        self.yyy1 = ctk.CTkEntry(grid1, placeholder_text="YYY")
-        self.yyy1.grid(row=0, column=2, padx=5)
-        self.zz1 = ctk.CTkEntry(grid1, placeholder_text="ZZ")
-        self.zz1.grid(row=0, column=3)
+        self.slot1 = CoordsInput(frame1, controller)
+        self.slot1.pack(padx=10, pady=10)
 
         frame2 = ctk.CTkFrame(self)
         frame2.pack(padx=20, pady=20)
         label2 = ctk.CTkLabel(frame2, text="Slot 2")
         label2.pack()
-        grid2 = ctk.CTkFrame(frame2)
-        grid2.pack(padx=10, pady=10)
-        self.xx2 = ctk.CTkEntry(grid2, placeholder_text="XX")
-        self.xx2.grid(row=0, column=1)
-        self.yyy2 = ctk.CTkEntry(grid2, placeholder_text="YYY")
-        self.yyy2.grid(row=0, column=2, padx=5)
-        self.zz2 = ctk.CTkEntry(grid2, placeholder_text="ZZ")
-        self.zz2.grid(row=0, column=3)
+        self.slot2 = CoordsInput(frame2, controller)
+        self.slot2.pack(padx=10, pady=10)
 
-        swap_button = ctk.CTkButton(self, text="Swap pallets", command=self.on_click)
+        swap_button = ctk.CTkButton(
+            self,
+            text="Swap pallets",
+            command=self.on_click,
+        )
         swap_button.pack(padx=20, pady=20)
 
     def on_click(self) -> None:
-        try:
-            self.swap(
-                int(self.xx1.get()),
-                int(self.yyy1.get()),
-                int(self.zz1.get()),
-                int(self.xx2.get()),
-                int(self.yyy2.get()),
-                int(self.zz2.get()),
-            )
-        except ValueError:
-            tk.messagebox.showerror("RackMaster", "Please enter valid coordinates.")
+        coords1 = self.slot1.get_coords()
+        if coords1 is None:
+            return
+
+        coords2 = self.slot2.get_coords()
+        if coords2 is None:
+            return
+
+        self.swap(*coords1, *coords2)
 
     def swap(
         self,
@@ -76,4 +67,3 @@ class SwapPallets(BaseFrame):
             tk.messagebox.showinfo("RackMaster", "Pallets swapped successfully.")
         except Exception as e:
             tk.messagebox.showerror("RackMaster", str(e))
-            return
