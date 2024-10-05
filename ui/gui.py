@@ -3,6 +3,7 @@ import tkinter as tk
 import customtkinter as ctk
 
 from src.db import Database
+from ui.get_slot import GetSlot
 from ui.swap_pallets import SwapPallets
 
 
@@ -22,6 +23,7 @@ class GUI(ctk.CTk):
         filemenu = tk.Menu(menubar, tearoff=0)
 
         inbound = tk.Menu(menubar, tearoff=0)
+        inbound.add_command(label="Get slot", command=lambda: self.show_frame(GetSlot))
 
         internal_movement = tk.Menu(menubar, tearoff=0)
         internal_movement.add_command(
@@ -36,12 +38,15 @@ class GUI(ctk.CTk):
         menubar.add_cascade(label="Outbound operations", menu=outbound)
 
         self.frames = {}
-        for F in (SwapPallets,):
+        for F in (
+            GetSlot,
+            SwapPallets,
+        ):
             frame = F(self.container, self, db)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(SwapPallets)
+        self.show_frame(GetSlot)
 
     def show_frame(self, frame_class):
         """Show the frame corresponding to the given frame class."""
