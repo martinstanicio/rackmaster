@@ -41,13 +41,21 @@ class Slot(Base):
 
     def __repr__(self):
         coords = format_coordinates(self.xx, self.yyy, self.zz)
+        status = (
+            "Full pallet" if self.status == Status.full_pallet else "Divided pallet"
+        )
 
         if self.status == Status.blocked:
-            return f"{coords} blocked"
+            msg = "Blocked"
         elif self.quantity == 0:
-            return f"{coords} empty"
+            msg = "Empty"
         else:
-            return f"{coords} {self.article_code} x{self.quantity}"
+            if self.status == Status.full_pallet:
+                msg = f"Full pallet - {self.article_code} x{self.quantity}"
+            else:
+                msg = f"Divided pallet - {self.article_code} x{self.quantity}"
+
+        return f"{coords} - {msg}"
 
     def is_blocked(self) -> bool:
         return self.status == Status.blocked
