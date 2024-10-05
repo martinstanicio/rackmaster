@@ -8,11 +8,20 @@ class CoordsInput(ctk.CTkFrame):
         super().__init__(parent)
         self.controller = controller
 
-        self.xx = ctk.CTkEntry(self, placeholder_text="XX")
+        cmd = self.register(self.validate_input)
+
+        self.xx = ctk.CTkEntry(
+            self, placeholder_text="XX", validate="all", validatecommand=(cmd, "%P")
+        )
+        self.yyy = ctk.CTkEntry(
+            self, placeholder_text="YYY", validate="all", validatecommand=(cmd, "%P")
+        )
+        self.zz = ctk.CTkEntry(
+            self, placeholder_text="ZZ", validate="all", validatecommand=(cmd, "%P")
+        )
+
         self.xx.grid(row=0, column=1)
-        self.yyy = ctk.CTkEntry(self, placeholder_text="YYY")
         self.yyy.grid(row=0, column=2, padx=5)
-        self.zz = ctk.CTkEntry(self, placeholder_text="ZZ")
         self.zz.grid(row=0, column=3)
 
     def get_coords(self) -> tuple[int, int, int] | None:
@@ -30,3 +39,6 @@ class CoordsInput(ctk.CTkFrame):
             return
 
         return (xx, yyy, zz)
+
+    def validate_input(self, P: str) -> bool:
+        return str.isdigit(P) or P == ""
