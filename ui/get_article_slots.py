@@ -38,6 +38,7 @@ class GetArticleSlots(BaseFrame):
 
         try:
             slots = self.db.get_article_slots(article_code)
+            stock = self.db.get_article_stock(article_code)
         except Exception as e:
             tk.messagebox.showerror("RackMaster", str(e))
             return
@@ -45,6 +46,7 @@ class GetArticleSlots(BaseFrame):
         self.result.configure(state="normal")
         self.result.delete("1.0", "end")
         self.result.insert("end", f"Slots: {len(slots)}\n")
+        self.result.insert("end", f"Stock: {stock}\n")
         for slot in slots:
             self.result.insert("end", f"{str(slot)}\n")
         self.result.configure(state="disabled")
