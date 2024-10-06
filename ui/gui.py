@@ -3,6 +3,7 @@ import tkinter as tk
 import customtkinter as ctk
 
 from src.db import Database
+from ui.get_article_slots import GetArticleSlots
 from ui.get_free_slots import GetFreeSlots
 from ui.get_slot import GetSlot
 from ui.register_inbound import RegisterInbound
@@ -30,6 +31,9 @@ class GUI(ctk.CTk):
             label="Get free slots", command=lambda: self.show_frame(GetFreeSlots)
         )
         inbound.add_command(
+            label="Get article slots", command=lambda: self.show_frame(GetArticleSlots)
+        )
+        inbound.add_command(
             label="Register inbound", command=lambda: self.show_frame(RegisterInbound)
         )
 
@@ -49,6 +53,7 @@ class GUI(ctk.CTk):
         for F in (
             GetSlot,
             GetFreeSlots,
+            GetArticleSlots,
             RegisterInbound,
             SwapPallets,
         ):
