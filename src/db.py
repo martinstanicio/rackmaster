@@ -173,10 +173,7 @@ class Database:
 
         return results
 
-    def get_article_stock(
-        self,
-        article_code: str,
-    ) -> list[Slot]:
+    def get_article_stock(self, article_code: str) -> int:
         """
         Given an `article_code`, returns the amount of that item in the warehouse.
         """
