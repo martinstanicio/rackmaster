@@ -2,6 +2,7 @@ import tkinter as tk
 
 import customtkinter as ctk
 
+from src.i18n import t
 from ui.base_frame import BaseFrame
 from ui.coords_input import CoordsInput
 
@@ -10,17 +11,17 @@ class GetSlot(BaseFrame):
     def __init__(self, parent, controller, db):
         super().__init__(parent, controller, db)
 
-        title = ctk.CTkLabel(self, text="Get slot", font=("Arial", 24))
+        title = ctk.CTkLabel(self, text=t("get_slot"), font=("Arial", 24))
         title.pack(padx=20, pady=20)
 
         frame = ctk.CTkFrame(self)
         frame.pack(padx=20, pady=20)
-        label = ctk.CTkLabel(frame, text="Slot coordinates")
+        label = ctk.CTkLabel(frame, text=t("slot_coordinates"))
         label.pack()
         self.slot = CoordsInput(frame)
         self.slot.pack(padx=10, pady=10)
 
-        get_button = ctk.CTkButton(self, text="Get slot", command=self.get_slot)
+        get_button = ctk.CTkButton(self, text=t("get_slot"), command=self.get_slot)
         get_button.pack(padx=20, pady=20)
 
         self.result = ctk.CTkTextbox(self)
@@ -39,7 +40,7 @@ class GetSlot(BaseFrame):
             return
 
         if slot is None:
-            tk.messagebox.showwarning("RackMaster", "Slot does not exist.")
+            tk.messagebox.showwarning("RackMaster", "{t('slot_does_not_exist')}.")
             return
 
         self.result.configure(state="normal")

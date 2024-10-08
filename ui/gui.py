@@ -3,6 +3,7 @@ import tkinter as tk
 import customtkinter as ctk
 
 from src.db import Database
+from src.i18n import t
 from ui.get_article_slots import GetArticleSlots
 from ui.get_free_slots import GetFreeSlots
 from ui.get_slot import GetSlot
@@ -26,28 +27,32 @@ class GUI(ctk.CTk):
         filemenu = tk.Menu(menubar, tearoff=0)
 
         inbound = tk.Menu(menubar, tearoff=0)
-        inbound.add_command(label="Get slot", command=lambda: self.show_frame(GetSlot))
         inbound.add_command(
-            label="Get free slots", command=lambda: self.show_frame(GetFreeSlots)
+            label=t("get_slot"), command=lambda: self.show_frame(GetSlot)
         )
         inbound.add_command(
-            label="Get article slots", command=lambda: self.show_frame(GetArticleSlots)
+            label=t("get_free_slots"), command=lambda: self.show_frame(GetFreeSlots)
         )
         inbound.add_command(
-            label="Register inbound", command=lambda: self.show_frame(RegisterInbound)
+            label=t("get_article_slots"),
+            command=lambda: self.show_frame(GetArticleSlots),
+        )
+        inbound.add_command(
+            label=t("register_inbound"),
+            command=lambda: self.show_frame(RegisterInbound),
         )
 
         internal_movement = tk.Menu(menubar, tearoff=0)
         internal_movement.add_command(
-            label="Swap pallets", command=lambda: self.show_frame(SwapPallets)
+            label=t("swap_pallets"), command=lambda: self.show_frame(SwapPallets)
         )
 
         outbound = tk.Menu(menubar, tearoff=0)
 
-        menubar.add_cascade(label="File", menu=filemenu)
-        menubar.add_cascade(label="Inbound operations", menu=inbound)
-        menubar.add_cascade(label="Internal movement", menu=internal_movement)
-        menubar.add_cascade(label="Outbound operations", menu=outbound)
+        menubar.add_cascade(label=t("menu_file"), menu=filemenu)
+        menubar.add_cascade(label=t("menu_inbound"), menu=inbound)
+        menubar.add_cascade(label=t("menu_internal"), menu=internal_movement)
+        menubar.add_cascade(label=t("menu_outbound"), menu=outbound)
 
         self.frames = {}
         for F in (

@@ -2,6 +2,8 @@ import tkinter as tk
 
 import customtkinter as ctk
 
+from src.i18n import t
+
 
 class CoordsInput(ctk.CTkFrame):
     def __init__(self, parent) -> None:
@@ -34,7 +36,7 @@ class CoordsInput(ctk.CTkFrame):
             yyy = int(self.yyy.get())
             zz = int(self.zz.get())
         except ValueError:
-            tk.messagebox.showerror("RackMaster", "Please enter valid coordinates.")
+            tk.messagebox.showerror("RackMaster", f"{t("please_enter_valid_coordinates")}.")
             return
 
         return (xx, yyy, zz)

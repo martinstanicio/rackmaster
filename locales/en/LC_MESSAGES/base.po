@@ -5,5 +5,125 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Hello, World!"
-msgstr "Hello, World!"
+msgid "menu_file"
+msgstr "File"
+
+msgid "menu_inbound"
+msgstr "Inbound operation"
+
+msgid "menu_outbound"
+msgstr "Outbound operation"
+
+msgid "menu_internal"
+msgstr "Internal movement"
+
+msgid "db_populate_error"
+msgstr "An error ocurred while populating the database"
+
+msgid "db_populate_success"
+msgstr "Populating `warehouse` table..."
+
+msgid "invalid_quantity"
+msgstr "Invalid quantity"
+
+msgid "quantity_must_be_integer"
+msgstr "Quantity must be an integer"
+
+msgid "quantity_must_be_greater_than_0"
+msgstr "Quantity must be greater than 0"
+
+msgid "invalid_coordinates"
+msgstr "Invalid coordinates"
+
+msgid "coordinates_out_of_bounds"
+msgstr "Coordinates are out of bounds"
+
+msgid "slot_at"
+msgstr "Slot at"
+
+msgid "slot_at_blocked"
+msgstr "is blocked"
+
+msgid "slot_at_not_empty"
+msgstr "is not empty"
+
+msgid "operation_cancelled"
+msgstr "Operation was cancelled"
+
+msgid "cannot_swap_blocked_slots"
+msgstr "Cannot swap pallets with blocked slots"
+
+msgid "quantity_must_be_non_negative"
+msgstr "quantity must be a non negative number"
+
+msgid "status_must_be_in_enum"
+msgstr "`status` must be 'blocked', 'full_pallet', or 'divided_pallet'"
+
+msgid "full_pallet"
+msgstr "Full pallet"
+
+msgid "divided_pallet"
+msgstr "Divided pallet"
+
+msgid "blocked"
+msgstr "Blocked"
+
+msgid "empty"
+msgstr "Empty"
+
+msgid "please_enter_valid_coordinates"
+msgstr "Please enter valid coordinates"
+
+msgid "please_enter_article_code"
+msgstr "Please enter an article code"
+
+msgid "slot"
+msgstr "Slot"
+
+msgid "slots"
+msgstr "Slots"
+
+msgid "stock"
+msgstr "Stock"
+
+msgid "article_code"
+msgstr "Article code"
+
+msgid "quantity"
+msgstr "Quantity"
+
+msgid "get_article_slots"
+msgstr "Get article slots"
+
+msgid "get_free_slots"
+msgstr "Get free slots"
+
+msgid "free_slots"
+msgstr "Free slots"
+
+msgid "get_slot"
+msgstr "Get slot"
+
+msgid "slot_coordinates"
+msgstr "Slot coordinates"
+
+msgid "slot_does_not_exist"
+msgstr "Slot does not exist"
+
+msgid "register_inbound"
+msgstr "Register inbound"
+
+msgid "use_full_pallet"
+msgstr "Use full pallet?"
+
+msgid "inbound_registered_successfully"
+msgstr "Inbound registered successfully"
+
+msgid "swap_pallets"
+msgstr "Swap pallets"
+
+msgid "slot_at_does_not_exist"
+msgstr "does not exist"
+
+msgid "pallets_swapped_successfully"
+msgstr "Pallets swapped successfully"

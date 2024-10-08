@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Enum, Integer, String
 
 from src.base import Base
+from src.i18n import t
 from src.status import Status
 from src.util import format_coordinates
 
@@ -25,12 +26,10 @@ class Slot(Base):
         quantity=0,
     ) -> None:
         if quantity < 0:
-            raise Exception("`quantity` must be a positive number")
+            raise Exception(t("quantity_must_be_non_negative"))
 
         if status not in list(Status):
-            raise Exception(
-                "`status` must be 'blocked', 'full_pallet', or 'divided_pallet'"
-            )
+            raise Exception(t("status_must_be_in_enum"))
 
         self.xx = xx
         self.yyy = yyy
@@ -42,18 +41,20 @@ class Slot(Base):
     def __repr__(self):
         coords = format_coordinates(self.xx, self.yyy, self.zz)
         status = (
-            "Full pallet" if self.status == Status.full_pallet else "Divided pallet"
+            t("full_pallet")
+            if self.status == Status.full_pallet
+            else t("divided_pallet")
         )
 
         if self.status == Status.blocked:
-            msg = "Blocked"
+            msg = t("blocked")
         elif self.quantity == 0:
-            msg = "Empty"
+            msg = t("empty")
         else:
             if self.status == Status.full_pallet:
-                msg = f"Full pallet - {self.article_code} x{self.quantity}"
+                msg = f"{t('full_pallet')} - {self.article_code} x{self.quantity}"
             else:
-                msg = f"Divided pallet - {self.article_code} x{self.quantity}"
+                msg = f"{t('divided_pallet')} - {self.article_code} x{self.quantity}"
 
         return f"{coords} - {msg}"
 

@@ -2,9 +2,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from src.base import Base
+from src.i18n import t
 from src.slot import Slot
 from src.status import Status
-from src.util import format_coordinates, get_pallet_origin, is_int, is_pallet_origin
+from src.util import (format_coordinates, get_pallet_origin, is_int,
+                      is_pallet_origin)
 
 
 class Database:
@@ -54,9 +56,9 @@ class Database:
                     for zz in self.levels:
                         self.session.add(Slot(xx, yyy, zz))
         except Exception as e:
-            print(f"An error ocurred while populating the database: {e}")
+            print(f"{t("db_populate_error")}: {e}")
         else:
-            print("Populating `warehouse` table...")
+            print(t("db_populate_success"))
             self.session.commit()
 
     def are_valid_coordinates(self, xx: int, yyy: int, zz: int) -> bool:
@@ -101,17 +103,17 @@ class Database:
         try:
             if not is_int(quantity):
                 raise Exception(
-                    f"Invalid quantity: {quantity}. Quantity must be an integer."
+                    f"{t("invalid_quantity")}: {quantity}. {t("quantity_must_be_integer")}."
                 )
 
             if quantity <= 0:
                 raise Exception(
-                    f"Invalid quantity: {quantity}. Quantity must be greater than 0."
+                    f"{t("invalid_quantity")}: {quantity}. {t("quantity_must_be_greater_than_0")}."
                 )
 
             if not self.are_valid_coordinates(xx, yyy, zz):
                 raise Exception(
-                    f"Invalid coordinates: {format_coordinates(xx, yyy, zz)}. Coordinates are out of bounds."
+                    f"{t("invalid_coordinates")}: {format_coordinates(xx, yyy, zz)}. {t("coordinates_out_of_bounds")}."
                 )
 
             target_slot = (
@@ -136,10 +138,10 @@ class Database:
                 coords = format_coordinates(slot.xx, slot.yyy, slot.zz)
 
                 if slot.is_blocked():
-                    raise Exception(f"Slot at {coords} is blocked.")
+                    raise Exception(f"{t("slot_at")} {coords} {t("slot_at_blocked")}.")
 
                 if not slot.is_empty():
-                    raise Exception(f"Slot at {coords} is not empty.")
+                    raise Exception(f"{t("slot_at")} {coords} {t("slot_at_not_empty")}.")
 
                 if use_full_pallet:
                     slot.status = Status.full_pallet
@@ -152,7 +154,7 @@ class Database:
                 target_slot.article_code = article_code
                 target_slot.quantity = quantity
         except Exception as e:
-            print(f"Operation was cancelled. {e}")
+            print(f"{t("operation_cancelled")}. {e}")
         else:
             self.session.commit()
 
@@ -213,7 +215,7 @@ class Database:
         for slot in pallet1 + pallet2:
             if slot.is_blocked():
                 raise Exception(
-                    "Operation cancelled. Cannot swap pallets with blocked slots."
+                    f"{t("operation_cancelled")}. Cannot swap pallets with blocked slots."
                 )
 
         for i in range(len(pallet1)):

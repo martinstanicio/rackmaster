@@ -5,5 +5,125 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Hello, World!"
-msgstr "¡Hola, Mundo!"
+msgid "menu_file"
+msgstr "Archivo"
+
+msgid "menu_inbound"
+msgstr "Operación entrante"
+
+msgid "menu_outbound"
+msgstr "Operación saliente"
+
+msgid "menu_internal"
+msgstr "Movimiento externo"
+
+msgid "db_populate_error"
+msgstr "Hubo un error al llenar la base de datos"
+
+msgid "db_populate_success"
+msgstr "Llenando la tabla `warehouse`..."
+
+msgid "invalid_quantity"
+msgstr "Cantidad inválida"
+
+msgid "quantity_must_be_integer"
+msgstr "La cantidad debe ser un número entero"
+
+msgid "quantity_must_be_greater_than_0"
+msgstr "La cantidad debe ser mayor que 0"
+
+msgid "invalid_coordinates"
+msgstr "Coordinadas inválidas"
+
+msgid "coordinates_out_of_bounds"
+msgstr "Las coordinadas estan fuera de los limites"
+
+msgid "slot_at"
+msgstr "El slot en"
+
+msgid "slot_at_blocked"
+msgstr "está bloqueado"
+
+msgid "slot_at_not_empty"
+msgstr "no está vacío"
+
+msgid "operation_cancelled"
+msgstr "La operación ha sido cancelada"
+
+msgid "cannot_swap_blocked_slots"
+msgstr "No es posible intercambiar slots bloqueados"
+
+msgid "quantity_must_be_non_negative"
+msgstr "La cantidad no puede ser negativa"
+
+msgid "status_must_be_in_enum"
+msgstr "El estado (`status`) debe ser bloqueado ('blocked'), pallet completo ('full_pallet'), o pallet dividido ('divided_pallet')"
+
+msgid "full_pallet"
+msgstr "Pallet completo"
+
+msgid "divided_pallet"
+msgstr "Pallet dividido"
+
+msgid "blocked"
+msgstr "Bloqueado"
+
+msgid "empty"
+msgstr "Vacío"
+
+msgid "please_enter_valid_coordinates"
+msgstr "Por favor, ingrese coordenadas validas"
+
+msgid "please_enter_article_code"
+msgstr "Por favor, ingrese un código de articulo"
+
+msgid "slot"
+msgstr "Slot"
+
+msgid "slots"
+msgstr "Slots"
+
+msgid "stock"
+msgstr "Stock"
+
+msgid "article_code"
+msgstr "Código de articulo"
+
+msgid "quantity"
+msgstr "Cantidad"
+
+msgid "get_article_slots"
+msgstr "Obtener slots de articulo"
+
+msgid "get_free_slots"
+msgstr "Obtener slots libres"
+
+msgid "free_slots"
+msgstr "Slots libres"
+
+msgid "get_slot"
+msgstr "Obtener slot"
+
+msgid "slot_coordinates"
+msgstr "Coordenadas del slot"
+
+msgid "slot_does_not_exist"
+msgstr "El slot no existe"
+
+msgid "register_inbound"
+msgstr "Registrar operación entrante"
+
+msgid "use_full_pallet"
+msgstr "¿Usar pallet completo?"
+
+msgid "inbound_registered_successfully"
+msgstr "Operación entrante registrada correctamente"
+
+msgid "swap_pallets"
+msgstr "Intercambiar pallets"
+
+msgid "slot_at_does_not_exist"
+msgstr "no existe"
+
+msgid "pallets_swapped_successfully"
+msgstr "Pallets intercambiados correctamente"
