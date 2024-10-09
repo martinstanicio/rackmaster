@@ -24,7 +24,7 @@ class GUI(ctk.CTk):
         menubar = tk.Menu(self)
         self.config(menu=menubar)
 
-        filemenu = tk.Menu(menubar, tearoff=0)
+        # filemenu = tk.Menu(menubar, tearoff=0)
 
         inbound = tk.Menu(menubar, tearoff=0)
         inbound.add_command(
@@ -49,7 +49,7 @@ class GUI(ctk.CTk):
 
         outbound = tk.Menu(menubar, tearoff=0)
 
-        menubar.add_cascade(label=t("menu_file"), menu=filemenu)
+        # menubar.add_cascade(label=t("menu_file"), menu=filemenu)
         menubar.add_cascade(label=t("menu_inbound"), menu=inbound)
         menubar.add_cascade(label=t("menu_internal"), menu=internal_movement)
         menubar.add_cascade(label=t("menu_outbound"), menu=outbound)
