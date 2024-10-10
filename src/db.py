@@ -1,3 +1,6 @@
+from copy import deepcopy
+from functools import cmp_to_key
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -5,8 +8,7 @@ from src.base import Base
 from src.i18n import t
 from src.slot import Slot
 from src.status import Status
-from src.util import (format_coordinates, get_pallet_origin, is_int,
-                      is_pallet_origin)
+from src.util import format_coordinates, get_pallet_origin, is_int, is_pallet_origin
 
 
 class Database:
@@ -141,7 +143,9 @@ class Database:
                     raise Exception(f"{t("slot_at")} {coords} {t("slot_at_blocked")}.")
 
                 if not slot.is_empty():
-                    raise Exception(f"{t("slot_at")} {coords} {t("slot_at_not_empty")}.")
+                    raise Exception(
+                        f"{t("slot_at")} {coords} {t("slot_at_not_empty")}."
+                    )
 
                 if use_full_pallet:
                     slot.status = Status.full_pallet
@@ -186,6 +190,77 @@ class Database:
             quantity += slot.quantity
 
         return quantity
+
+    def compare_slots(self, slot1: Slot, slot2: Slot) -> int:
+        if slot1.xx > slot2.xx:
+            return 1
+        if slot1.xx < slot2.xx:
+            return -1
+
+        if slot1.yyy > slot2.yyy:
+            return 1
+        if slot1.yyy < slot2.yyy:
+            return -1
+
+        if slot1.zz > slot2.zz:
+            return 1
+        if slot1.zz < slot2.zz:
+            return -1
+
+        return 0
+
+    def register_outbound(self, *articles_with_quantity: tuple[str, int]) -> list[Slot]:
+        """
+        Given a list of `articles_with_quantity`, returns a list of slots that can be used for retrieval.
+
+        Raises an exception if there are missing articles.
+        """
+        slots: list[Slot] = []
+        missing_articles: list[tuple[str, int]] = []
+
+        for article, quantity in articles_with_quantity:
+            slots_available = self.get_article_slots(article)
+
+            sorted_slots = sorted(slots_available, key=cmp_to_key(self.compare_slots))
+
+            for slot in sorted_slots:
+                if quantity == 0:
+                    break
+
+                slots_to_update: list[Slot] = []
+                if slot.status == Status.full_pallet:
+                    origin = get_pallet_origin(slot.yyy)
+
+                    for i in range(origin, origin + 3):
+                        slots_to_update.append(self.get_slot(slot.xx, i, slot.zz))
+                else:
+                    slots_to_update.append(slot)
+
+                slots.append(deepcopy(slot))
+
+                if slot.quantity <= quantity:
+                    quantity -= slot.quantity
+                    slot.quantity = 0
+                else:
+                    slot.quantity -= quantity
+                    quantity = 0
+
+                for s in slots_to_update:
+                    s.quantity = slot.quantity
+
+                    if s.quantity == 0:
+                        s.article_code = None
+
+            if quantity > 0:
+                missing_articles.append((article, quantity))
+
+        if len(missing_articles) > 0:
+            raise Exception(
+                f"{t("operation_cancelled")}. {t('missing_articles')}:\n{'\n'.join([f"{article[0]}: {article[1]}" for article in missing_articles])}"
+            )
+        else:
+            self.session.commit()
+            return slots
 
     def swap_pallets(self, slot1: Slot, slot2: Slot) -> None:
         origin1 = get_pallet_origin(slot1.yyy)

@@ -127,3 +127,6 @@ msgstr "does not exist"
 
 msgid "pallets_swapped_successfully"
 msgstr "Pallets swapped successfully"
+
+msgid "missing_articles"
+msgstr "Missing articles"
