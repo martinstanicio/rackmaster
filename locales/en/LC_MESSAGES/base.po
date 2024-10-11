@@ -130,3 +130,9 @@ msgstr "Pallets swapped successfully"
 
 msgid "missing_articles"
 msgstr "Missing articles"
+
+msgid "register_outbound"
+msgstr "Register outbound"
+
+msgid "outbound_registered_successfully"
+msgstr "Outbound registered successfully"

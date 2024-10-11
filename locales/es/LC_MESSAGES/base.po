@@ -130,3 +130,9 @@ msgstr "Pallets intercambiados correctamente"
 
 msgid "missing_articles"
 msgstr "Artículos faltantes"
+
+msgid "register_outbound"
+msgstr "Registrar salida"
+
+msgid "outbound_registered_successfully"
+msgstr "Salida registrada correctamente"

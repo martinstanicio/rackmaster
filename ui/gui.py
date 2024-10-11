@@ -8,6 +8,7 @@ from ui.get_article_slots import GetArticleSlots
 from ui.get_free_slots import GetFreeSlots
 from ui.get_slot import GetSlot
 from ui.register_inbound import RegisterInbound
+from ui.register_outbound import RegisterOutbound
 from ui.swap_pallets import SwapPallets
 
 
@@ -48,6 +49,10 @@ class GUI(ctk.CTk):
         )
 
         outbound = tk.Menu(menubar, tearoff=0)
+        outbound.add_command(
+            label=t("register_outbound"),
+            command=lambda: self.show_frame(RegisterOutbound),
+        )
 
         # menubar.add_cascade(label=t("menu_file"), menu=filemenu)
         menubar.add_cascade(label=t("menu_inbound"), menu=inbound)
@@ -61,6 +66,7 @@ class GUI(ctk.CTk):
             GetArticleSlots,
             RegisterInbound,
             SwapPallets,
+            RegisterOutbound,
         ):
             frame = F(self.container, self, db)
             self.frames[F] = frame
