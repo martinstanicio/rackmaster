@@ -236,8 +236,6 @@ class Database:
                 else:
                     slots_to_update.append(slot)
 
-                slots.append(deepcopy(slot))
-
                 if slot.quantity <= quantity:
                     quantity -= slot.quantity
                     slot.quantity = 0
@@ -251,10 +249,13 @@ class Database:
                     if s.quantity == 0:
                         s.article_code = None
 
+                slots.append(deepcopy(slot))
+
             if quantity > 0:
                 missing_articles.append((article, quantity))
 
         if len(missing_articles) > 0:
+            self.session.rollback()
             raise Exception(
                 f"{t("operation_cancelled")}. {t('missing_articles')}:\n{'\n'.join([f"{article[0]}: {article[1]}" for article in missing_articles])}"
             )
