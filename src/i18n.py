@@ -1,7 +1,15 @@
 import gettext
+import sys
+from os import path
 
-localedir = "locales"
 languages = ["es", "en"]
+
+try:
+    bundledir = getattr(sys, "_MEIPASS")
+except AttributeError:
+    localedir = "locales"
+else:
+    localedir = path.abspath(path.join(bundledir, "locales"))
 
 
 def main() -> None:
