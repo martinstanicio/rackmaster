@@ -69,6 +69,23 @@ class Database:
         """
         return (xx in self.rows) and (yyy in self.columns) and (zz in self.levels)
 
+    def get_pallet_slots(self, slot: Slot) -> list[Slot]:
+        """
+        Returns a list of all slots for the given pallet.
+        """
+        origin = get_pallet_origin(slot.yyy)
+
+        return (
+            self.session.query(Slot)
+            .where(
+                Slot.xx == slot.xx,
+                Slot.yyy >= origin,
+                Slot.yyy <= origin + 2,
+                Slot.zz == slot.zz,
+            )
+            .all()
+        )
+
     def get_slot(self, xx: int, yyy: int, zz: int) -> Slot | None:
         """
         Returns the slot with the given coordinates, or `None` if it does not exist.
@@ -118,23 +135,14 @@ class Database:
                     f"{t("invalid_coordinates")}: {format_coordinates(xx, yyy, zz)}. {t("coordinates_out_of_bounds")}."
                 )
 
-            target_slot = (
-                self.session.query(Slot)
-                .where(Slot.xx == xx, Slot.yyy == yyy, Slot.zz == zz)
-                .one_or_none()
-            )
+            target_slot = self.get_slot(xx, yyy, zz)
 
-            pallet_origin = get_pallet_origin(yyy)
-            pallet_slots = (
-                self.session.query(Slot)
-                .where(
-                    Slot.xx == xx,
-                    Slot.yyy >= pallet_origin,
-                    Slot.yyy <= pallet_origin + 2,
-                    Slot.zz == zz,
+            if target_slot is None:
+                raise Exception(
+                    f"{t('slot_at')} {format_coordinates(xx, yyy, zz)} {t('not_found')}."
                 )
-                .all()
-            )
+
+            pallet_slots = self.get_pallet_slots(target_slot)
 
             for slot in pallet_slots:
                 coords = format_coordinates(slot.xx, slot.yyy, slot.zz)
@@ -158,7 +166,8 @@ class Database:
                 target_slot.article_code = article_code
                 target_slot.quantity = quantity
         except Exception as e:
-            print(f"{t("operation_cancelled")}. {e}")
+            self.session.rollback()
+            raise Exception(f"{t("operation_cancelled")}. {e}")
         else:
             self.session.commit()
 
@@ -227,14 +236,11 @@ class Database:
                 if quantity == 0:
                     break
 
-                slots_to_update: list[Slot] = []
-                if slot.status == Status.full_pallet:
-                    origin = get_pallet_origin(slot.yyy)
-
-                    for i in range(origin, origin + 3):
-                        slots_to_update.append(self.get_slot(slot.xx, i, slot.zz))
-                else:
-                    slots_to_update.append(slot)
+                slots_to_update: list[Slot] = (
+                    self.get_pallet_slots(slot)
+                    if slot.status == Status.full_pallet
+                    else [slot]
+                )
 
                 if slot.quantity <= quantity:
                     quantity -= slot.quantity
@@ -264,29 +270,8 @@ class Database:
             return slots
 
     def swap_pallets(self, slot1: Slot, slot2: Slot) -> None:
-        origin1 = get_pallet_origin(slot1.yyy)
-        origin2 = get_pallet_origin(slot2.yyy)
-
-        pallet1: list[Slot] = (
-            self.session.query(Slot)
-            .where(
-                Slot.xx == slot1.xx,
-                Slot.yyy >= origin1,
-                Slot.yyy <= origin1 + 2,
-                Slot.zz == slot1.zz,
-            )
-            .all()
-        )
-        pallet2: list[Slot] = (
-            self.session.query(Slot)
-            .where(
-                Slot.xx == slot2.xx,
-                Slot.yyy >= origin2,
-                Slot.yyy <= origin2 + 2,
-                Slot.zz == slot2.zz,
-            )
-            .all()
-        )
+        pallet1 = self.get_pallet_slots(slot1)
+        pallet2 = self.get_pallet_slots(slot2)
 
         for slot in pallet1 + pallet2:
             if slot.is_blocked():
