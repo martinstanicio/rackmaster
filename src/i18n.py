@@ -1,9 +1,22 @@
 import gettext
 
-# Run the following commansd to generate the translation files:
-# python -c "import polib; polib.pofile('locales/es/LC_MESSAGES/base.po').save_as_mofile('locales/es/LC_MESSAGES/base.mo')"
-# python -c "import polib; polib.pofile('locales/en/LC_MESSAGES/base.po').save_as_mofile('locales/en/LC_MESSAGES/base.mo')"
+localedir = "locales"
+languages = ["es", "en"]
 
-lang = gettext.translation("base", localedir="locales", languages=["es", "en"])
+
+def main() -> None:
+    import polib
+
+    for language in languages:
+        inpath = f"{localedir}/{language}/LC_MESSAGES/base.po"
+        outpath = f"{localedir}/{language}/LC_MESSAGES/base.mo"
+
+        polib.pofile(inpath).save_as_mofile(outpath)
+
+
+if __name__ == "__main__":
+    main()
+
+lang = gettext.translation("base", localedir, languages)
 lang.install()
 t = lang.gettext
