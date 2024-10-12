@@ -111,7 +111,7 @@ msgid "slot_does_not_exist"
 msgstr "El slot no existe"
 
 msgid "register_inbound"
-msgstr "Registrar operación entrante"
+msgstr "Registrar entrada"
 
 msgid "use_full_pallet"
 msgstr "¿Usar pallet completo?"
