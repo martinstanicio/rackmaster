@@ -3,6 +3,7 @@ import tkinter as tk
 import customtkinter as ctk
 
 from src.i18n import t
+from src.util import format_coordinates
 from ui.base_frame import BaseFrame
 from ui.coords_input import CoordsInput
 
@@ -29,7 +30,7 @@ class RegisterInbound(BaseFrame):
         label2 = ctk.CTkLabel(grid, text=t("article_code"))
         label2.grid(row=0, column=0)
         self.article_code = ctk.CTkEntry(grid)
-        self.article_code.grid(row=1, column=0, padx=10, sticky="ew")
+        self.article_code.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
 
         label3 = ctk.CTkLabel(grid, text=t("quantity"))
         label3.grid(row=0, column=1)
@@ -38,10 +39,7 @@ class RegisterInbound(BaseFrame):
             validate="all",
             validatecommand=(self.register(self.validate_quantity_input), "%P"),
         )
-        self.quantity.grid(row=1, column=1, padx=10, sticky="ew")
-
-        self.use_full_pallet = ctk.CTkCheckBox(grid, text=t("use_full_pallet"))
-        self.use_full_pallet.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
+        self.quantity.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
 
         register_button = ctk.CTkButton(
             self, text=t("register_inbound"), command=self.register_inbound
@@ -55,7 +53,8 @@ class RegisterInbound(BaseFrame):
 
         article_code = self.article_code.get()
         if article_code == "":
-            raise Exception(f"{t('please_enter_article_code')}.")
+            tk.messagebox.showerror("RackMaster", f"{t('please_enter_article_code')}.")
+            return
 
         try:
             quantity = int(self.quantity.get())
@@ -63,10 +62,26 @@ class RegisterInbound(BaseFrame):
             tk.messagebox.showerror("RackMaster", f"{t("quantity_must_be_integer")}.")
             return
 
-        use_full_pallet = self.use_full_pallet.get()
+        slot = self.db.get_slot(*coords)
+        if slot is None:
+            raise Exception(f"{t('slot_does_not_exist')}.")
 
         try:
-            self.db.register_inbound(article_code, quantity, *coords, use_full_pallet)
+            if not slot.is_empty():
+                if article_code == slot.article_code:
+                    self.db.update_stock(*coords, quantity)
+                else:
+                    raise Exception(
+                        f"{t("slot_at")} {format_coordinates(*coords)} {t("slot_at_not_empty")}."
+                    )
+            else:
+                use_full_pallet = tk.messagebox.askyesno(
+                    "RackMaster",
+                    f"{t('use_full_pallet')}?",
+                )
+                self.db.register_inbound(
+                    article_code, quantity, *coords, use_full_pallet
+                )
         except Exception as e:
             tk.messagebox.showerror("RackMaster", str(e))
             return
@@ -78,7 +93,6 @@ class RegisterInbound(BaseFrame):
         self.slot.reset()
         self.article_code.delete(0, "end")
         self.quantity.delete(0, "end")
-        self.use_full_pallet.deselect()
 
     def validate_quantity_input(self, P: str) -> bool:
         return str.isdigit(P) or P == ""

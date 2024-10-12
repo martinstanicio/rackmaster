@@ -171,6 +171,58 @@ class Database:
         else:
             self.session.commit()
 
+    def update_stock(self, xx: int, yyy: int, zz: int, quantity_to_add: int) -> None:
+        """
+        Updates the quantity of the slot with the given coordinates.
+        """
+        if not self.are_valid_coordinates(xx, yyy, zz):
+            raise Exception(
+                f"{t('invalid_coordinates')}: {format_coordinates(xx, yyy, zz)}. {t('coordinates_out_of_bounds')}."
+            )
+
+        if not is_int(quantity_to_add):
+            raise Exception(
+                f"{t('invalid_quantity')}: {quantity_to_add}. {t('quantity_must_be_integer')}."
+            )
+
+        if quantity_to_add <= 0:
+            raise Exception(
+                f"{t('invalid_quantity')}: {quantity_to_add}. {t('quantity_must_be_greater_than_0')}."
+            )
+
+        try:
+            target_slot = self.get_slot(xx, yyy, zz)
+            pallet_slots = self.get_pallet_slots(target_slot)
+
+            slots_to_update = (
+                pallet_slots
+                if target_slot.status == Status.full_pallet
+                else [target_slot]
+            )
+
+            for slot in slots_to_update:
+                if slot is None:
+                    raise Exception(
+                        f"{t('slot_at')} {format_coordinates(slot.xx, slot.yyy, slot.zz)} {t('not_found')}."
+                    )
+
+                if slot.status == Status.blocked:
+                    raise Exception(
+                        f"{t('slot_at')} {format_coordinates(slot.xx, slot.yyy, slot.zz)} {t('slot_at_blocked')}."
+                    )
+
+                if slot.is_empty():
+                    raise Exception(
+                        f"{t('slot_at')} {format_coordinates(slot.xx, slot.yyy, slot.zz)} {t('slot_at_empty')}."
+                    )
+
+                slot.quantity += quantity_to_add
+        except Exception as e:
+            self.session.rollback()
+            raise Exception(f"{t('operation_cancelled')}. {e}")
+        else:
+            self.session.commit()
+
     def get_article_slots(
         self,
         article_code: str,
