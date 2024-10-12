@@ -51,10 +51,7 @@ class Slot(Base):
         elif self.quantity == 0:
             msg = t("empty")
         else:
-            if self.status == Status.full_pallet:
-                msg = f"{t('full_pallet')} - {self.article_code} x{self.quantity}"
-            else:
-                msg = f"{t('divided_pallet')} - {self.article_code} x{self.quantity}"
+            msg = f"{status} - {self.article_code} x{self.quantity}"
 
         return f"{coords} - {msg}"
 
