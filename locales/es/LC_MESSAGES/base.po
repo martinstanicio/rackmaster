@@ -20,9 +20,6 @@ msgstr "Movimiento externo"
 msgid "db_populate_error"
 msgstr "Hubo un error al llenar la base de datos"
 
-msgid "db_populate_success"
-msgstr "Llenando la tabla `warehouse`..."
-
 msgid "invalid_quantity"
 msgstr "Cantidad inválida"
 

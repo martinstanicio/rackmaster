@@ -20,9 +20,6 @@ msgstr "Internal movement"
 msgid "db_populate_error"
 msgstr "An error ocurred while populating the database"
 
-msgid "db_populate_success"
-msgstr "Populating `warehouse` table..."
-
 msgid "invalid_quantity"
 msgstr "Invalid quantity"
 

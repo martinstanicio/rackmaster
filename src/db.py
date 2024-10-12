@@ -58,9 +58,8 @@ class Database:
                     for zz in self.levels:
                         self.session.add(Slot(xx, yyy, zz))
         except Exception as e:
-            print(f"{t("db_populate_error")}: {e}")
+            raise Exception(f"{t("db_populate_error")}: {e}")
         else:
-            print(t("db_populate_success"))
             self.session.commit()
 
     def are_valid_coordinates(self, xx: int, yyy: int, zz: int) -> bool:
