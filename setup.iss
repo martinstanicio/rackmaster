@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "RackMaster"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "v1.0.0"
 #define MyAppPublisher "Martín Stanicio"
 #define MyAppExeName "RackMaster.exe"
 
@@ -28,7 +28,7 @@ LicenseFile=C:\Users\martinstanicio\dev\rackmaster\LICENSE.md
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=C:\Users\martinstanicio\dev\rackmaster\dist
-OutputBaseFilename=RackMaster_1.0.0_setup
+OutputBaseFilename=RackMaster-v1.0.0-setup
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
