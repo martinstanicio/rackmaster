@@ -1,4 +1,13 @@
-db_url = "sqlite:///rackmaster.db"
+import os
+
+from appdirs import user_data_dir
+
+data_dir = user_data_dir(appname="RackMaster", appauthor="Martín Stanicio")
+print(data_dir)
+os.makedirs(data_dir, exist_ok=True)
+
+db_path = os.path.join(data_dir, "rackmaster.db")
+db_url = f"sqlite:///{db_path}"
 
 min_row = 50
 max_row = 53
